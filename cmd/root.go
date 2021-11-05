@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/kevholditch/vacuum/internal/app/vacuum/version"
+	"github.com/kevholditch/vacuum/internal/app/vacuum"
+
 	"github.com/spf13/cobra"
 )
 
@@ -40,7 +41,7 @@ var rootCmd = &cobra.Command{
 
 https://github.com/kevholditch/vacuum %s
 
-`, version.Version)
+`, vacuum.Version())
 	},
 }
 

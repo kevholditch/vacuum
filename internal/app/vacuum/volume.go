@@ -43,6 +43,10 @@ func (vr *volumeResources) Resources() []Resource {
 	return vr.resources
 }
 
+func (v *volumerVacuumer) Type() string {
+	return "volumes"
+}
+
 func (v *volumerVacuumer) Identify(region Region) (Resources, error) {
 	svc, err := createEc2ServiceForRegion(region)
 	if err != nil {
