@@ -24,7 +24,7 @@ var volumesCmd = &cobra.Command{
 
 			resources, err := vacuum.Volumes().Identify(r)
 			if err != nil {
-				tml.Printf("<bold><red>Error:</red></bold> could not check volumes error: %s\n", err)
+				tml.Printf("<bold><red>Error:</red></bold> could not check volumes details: %s\n", err)
 				os.Exit(1)
 			}
 			tml.Printf("\t Found %d volume(s)\n", len(resources.Resources()))

@@ -57,6 +57,10 @@ func (v *volumerVacuumer) Identify(region Region) (Resources, error) {
 			},
 		}})
 
+	if err != nil {
+		return nil, err
+	}
+
 	result := &volumeResources{
 		resources: []Resource{},
 		region:    region,
