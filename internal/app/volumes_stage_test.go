@@ -17,12 +17,20 @@ import (
 )
 
 type volumesTestStage struct {
-	t *testing.T
+	t       *testing.T
+	regions map[vacuum.Region]bool
 }
 
-func newVolumesTest(t *testing.T) (*volumesTestStage, *volumesTestStage, *volumesTestStage) {
-	s := &volumesTestStage{t: t}
-	return s, s, s
+func newVolumesTest(t *testing.T) (*volumesTestStage, *volumesTestStage, *volumesTestStage, func()) {
+	s := &volumesTestStage{t: t, regions: map[vacuum.Region]bool{}}
+	return s, s, s, s.clean
+}
+
+func (s *volumesTestStage) clean() {
+	for region := range s.regions {
+		resources, _ := vacuum.Volumes().Identify(region)
+		_ = vacuum.Volumes().Clean(resources)
+	}
 }
 
 func (s *volumesTestStage) createEc2ServiceForRegion(region string) *ec2.EC2 {
@@ -37,6 +45,9 @@ func (s *volumesTestStage) createEc2ServiceForRegion(region string) *ec2.EC2 {
 
 func (s *volumesTestStage) an_available_volume_exists_in_region(region string) *volumesTestStage {
 	svc := s.createEc2ServiceForRegion(region)
+	if _, ok := s.regions[vacuum.Region(region)]; !ok {
+		s.regions[vacuum.Region(region)] = true
+	}
 	v, err := svc.CreateVolume(&ec2.CreateVolumeInput{
 		AvailabilityZone: aws.String(region + "a"),
 		VolumeType:       aws.String("gp2"),
@@ -72,8 +83,12 @@ func (s *volumesTestStage) an_available_volume_exists_in_region(region string) *
 }
 
 func (s *volumesTestStage) volumes_are_vacuumed_in(region string) *volumesTestStage {
-	err := vacuum.Volumes(region)
+	resources, err := vacuum.Volumes().Identify(vacuum.Region(region))
 	assert.NoError(s.t, err)
+
+	err = vacuum.Volumes().Clean(resources)
+	assert.NoError(s.t, err)
+
 	return s
 }
 

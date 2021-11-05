@@ -2,13 +2,11 @@ package app
 
 import (
 	"testing"
-
-	"github.com/kevholditch/vacuum/internal/app/vacuum"
 )
 
 func TestRemoveAvailableVolumeInRegion(t *testing.T) {
 
-	given, when, then := newVolumesTest(t)
+	given, when, then, _ := newVolumesTest(t)
 
 	given.
 		an_available_volume_exists_in_region("eu-west-1")
@@ -23,9 +21,8 @@ func TestRemoveAvailableVolumeInRegion(t *testing.T) {
 
 func TestLeaveVolumeInOtherRegion(t *testing.T) {
 
-	defer func() { _ = vacuum.Volumes("eu-west-2") }()
-
-	given, when, then := newVolumesTest(t)
+	given, when, then, clean := newVolumesTest(t)
+	defer clean()
 
 	given.
 		an_available_volume_exists_in_region("eu-west-2")
