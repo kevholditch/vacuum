@@ -16,3 +16,16 @@ type Resources interface {
 	Region() Region
 	Resources() []Resource
 }
+
+type resources struct {
+	resources []Resource
+	region    Region
+}
+
+func (r *resources) Region() Region {
+	return r.region
+}
+
+func (r *resources) Resources() []Resource {
+	return r.resources
+}

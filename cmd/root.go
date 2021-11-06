@@ -8,6 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var regions []string
+var defaultRegions = []string{"eu-west-1", "eu-west-2"}
+
 var rootCmd = &cobra.Command{
 	Use:   "vacuum",
 	Short: "Clean your AWS account of unused resources",

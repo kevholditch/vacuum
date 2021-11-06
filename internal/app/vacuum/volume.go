@@ -30,19 +30,6 @@ func Volumes() Vacuumer {
 	return &volumerVacuumer{}
 }
 
-type volumeResources struct {
-	resources []Resource
-	region    Region
-}
-
-func (vr *volumeResources) Region() Region {
-	return vr.region
-}
-
-func (vr *volumeResources) Resources() []Resource {
-	return vr.resources
-}
-
 func (v *volumerVacuumer) Type() string {
 	return "volumes"
 }
@@ -65,7 +52,7 @@ func (v *volumerVacuumer) Identify(region Region) (Resources, error) {
 		return nil, err
 	}
 
-	result := &volumeResources{
+	result := &resources{
 		resources: []Resource{},
 		region:    region,
 	}

@@ -19,8 +19,8 @@ func Vacuum(regions []string, vacuumers ...Vacuumer) {
 
 	for _, region := range regions {
 		r := Region(region)
+		tml.Printf("\n<white>[%s]</white>\n", region)
 		for _, v := range vacuumers {
-			tml.Printf("<white>[%s]</white>\n", region)
 			tml.Printf("\t [%s] Identifying...", v.Type())
 
 			resources, err := v.Identify(r)
@@ -29,7 +29,7 @@ func Vacuum(regions []string, vacuumers ...Vacuumer) {
 				os.Exit(1)
 			}
 			clearLine()
-			foundStr := fmt.Sprintf("\t [%s] Found %d\n", v.Type(), len(resources.Resources()))
+			foundStr := fmt.Sprintf("\t [%s] Found %d", v.Type(), len(resources.Resources()))
 			if len(resources.Resources()) > 0 {
 				foundStr = wrapWhite(foundStr)
 			}
