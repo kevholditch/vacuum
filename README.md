@@ -1,4 +1,12 @@
 # vacuum
+
+Vacuum your AWS account of unused resources to save you 💲💲!!
+
+To run:
+```
+vacuum all
+```
+
 ```
                             ▒▒▒▒▒▒▒▒▒▒▒▒
                           ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -26,11 +34,15 @@
                                             ░░░░░░░░░░
 ```
 
+## Context
+
 Even when using infrastructure as code tools like Terraform it is easy to leave behind relic resources such as EC2 EBS volumes and ENIs.
 
 These relics cost you money!  Enter vacuum, to deep clean your account!
 
-## All
+## Usage
+
+### Full Vacuum
 
 To run all the commands and thoroughly deep clean your account run `vacuum all`
 
@@ -40,7 +52,7 @@ By default, regions `eu-west-1` and `eu-west-2` will be vacuumed.  You can overr
 vacuum all -r "us-east-1,us-east-2"
 ```
 
-## Volumes
+### Vacuum Volumes
 
 Clean up available EC2 volumes using the `volumes` command.  The volumes are not attached to anything and are just sitting there lining Jeff Bezos's pocket.  No one wants that so clean them up using:
 
@@ -55,7 +67,7 @@ vacuum volumes -r "us-east-1,us-east-2"
 ```
 
 
-## ENIs
+### Vacuum ENIs
 
 Clean up available ENIs using the `enis` command.  The ENIs are not attached to anything and are just sitting there costing you money, clean them up using:
 
