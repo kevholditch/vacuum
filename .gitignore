@@ -1,5 +1,5 @@
 .idea/
 vacuum
-!vacuum/**/*
+!cmd/vacuum/*
 litter
 !internal/**
