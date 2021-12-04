@@ -1,3 +1,5 @@
 .idea/
 vacuum
+!vacuum/**/*
+litter
 !internal/**

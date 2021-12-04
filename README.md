@@ -1,4 +1,6 @@
 # vacuum
+
+Deep clean your AWS account of unused resources to save you mon
 ```
                             ▒▒▒▒▒▒▒▒▒▒▒▒
                           ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -25,10 +27,11 @@
                                         ░░░░░░░░░░░░░░░░░░
                                             ░░░░░░░░░░
 ```
+## What is it?
 
 Even when using infrastructure as code tools like Terraform it is easy to leave behind relic resources such as EC2 EBS volumes and ENIs.
 
-These relics cost you money!  Enter vacuum, to deep clean your account!
+These relics take money out of your pocket and put it in Jeff Bezos's,  Enter vacuum, to deep clean your account!
 
 ## All
 
