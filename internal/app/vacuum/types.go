@@ -8,7 +8,7 @@ type Region string
 
 type Vacuumer interface {
 	Identify(region Region) (Resources, error)
-	Clean(resources Resources) error
+	Clean(resources Resources, cleaned func(amount int)) error
 	Type() string
 }
 

@@ -47,17 +47,18 @@ func (v *networkInterfaceVacuumer) Identify(region Region) (Resources, error) {
 
 }
 
-func (v *networkInterfaceVacuumer) Clean(resources Resources) error {
+func (v *networkInterfaceVacuumer) Clean(resources Resources, cleaned func(amount int)) error {
 	svc, err := createEc2ServiceForRegion(resources.Region())
 	if err != nil {
 		return err
 	}
 
-	for _, resource := range resources.Resources() {
+	for i, resource := range resources.Resources() {
 		_, err := svc.DeleteNetworkInterface(&ec2.DeleteNetworkInterfaceInput{NetworkInterfaceId: resource.ID()})
 		if err != nil {
 			return err
 		}
+		cleaned(i)
 	}
 
 	return nil

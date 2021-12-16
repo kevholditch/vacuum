@@ -71,7 +71,7 @@ func (s *networkInterfacesTestStage) createTestSubnet(region string) *networkInt
 func (s *networkInterfacesTestStage) clean() {
 	for region := range s.regions {
 		resources, _ := vacuum.NetworkInterfaces().Identify(region)
-		_ = vacuum.NetworkInterfaces().Clean(resources)
+		_ = vacuum.NetworkInterfaces().Clean(resources, func(amount int) {})
 		svc := s.createEc2ServiceForRegion(string(region))
 		svc.DeleteSubnet(&ec2.DeleteSubnetInput{SubnetId: s.subnetId})
 		svc.DeleteVpc(&ec2.DeleteVpcInput{VpcId: s.vpcId})
@@ -103,7 +103,7 @@ func (s *networkInterfacesTestStage) network_interfaces_are_vacuumed_in(region s
 	resources, err := vacuum.NetworkInterfaces().Identify(vacuum.Region(region))
 	assert.NoError(s.t, err)
 
-	err = vacuum.NetworkInterfaces().Clean(resources)
+	err = vacuum.NetworkInterfaces().Clean(resources, func(amount int) {})
 	assert.NoError(s.t, err)
 
 	return s

@@ -52,6 +52,8 @@ By default, regions `eu-west-1` and `eu-west-2` will be vacuumed.  You can overr
 vacuum all -r "us-east-1,us-east-2"
 ```
 
+Dont worry Vacuum will ask you to confirm removal before deleting anything!
+
 ### Vacuum Volumes
 
 Clean up available EC2 volumes using the `volumes` command.  The volumes are not attached to anything and are just sitting there lining Jeff Bezos's pocket.  No one wants that so clean them up using:

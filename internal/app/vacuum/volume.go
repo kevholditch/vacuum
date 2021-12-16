@@ -63,17 +63,18 @@ func (v *volumerVacuumer) Identify(region Region) (Resources, error) {
 	return result, nil
 }
 
-func (v *volumerVacuumer) Clean(resources Resources) error {
+func (v *volumerVacuumer) Clean(resources Resources, cleaned func(amount int)) error {
 	svc, err := createEc2ServiceForRegion(resources.Region())
 	if err != nil {
 		return err
 	}
 
-	for _, resource := range resources.Resources() {
+	for i, resource := range resources.Resources() {
 		_, err := svc.DeleteVolume(&ec2.DeleteVolumeInput{VolumeId: resource.ID()})
 		if err != nil {
 			return err
 		}
+		cleaned(i)
 	}
 
 	return nil
