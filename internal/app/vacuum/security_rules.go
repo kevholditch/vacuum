@@ -123,7 +123,7 @@ func nlbExists(nlbID *string, region Region) (bool, error) {
 	return true, nil
 }
 
-func (s *securityRuleVacuumer) Clean(resources Resources) error {
+func (s *securityRuleVacuumer) Clean(resources Resources, cleaned func(amount int)) error {
 	svc, err := createEc2ServiceForRegion(resources.Region())
 	if err != nil {
 		return err
@@ -143,6 +143,7 @@ func (s *securityRuleVacuumer) Clean(resources Resources) error {
 
 	egressRules, ingressRules := rulesSplitByEgressIngress(rulesResponse.SecurityGroupRules)
 
+	i := 0
 	for groupID, ruleIDs := range egressRules {
 		_, err = svc.RevokeSecurityGroupEgress(&ec2.RevokeSecurityGroupEgressInput{
 			GroupId:              &groupID,
@@ -151,6 +152,8 @@ func (s *securityRuleVacuumer) Clean(resources Resources) error {
 		if err != nil {
 			return err
 		}
+		i++
+		cleaned(i)
 	}
 
 	for groupID, ruleIDs := range ingressRules {
@@ -161,6 +164,8 @@ func (s *securityRuleVacuumer) Clean(resources Resources) error {
 		if err != nil {
 			return err
 		}
+		i++
+		cleaned(i)
 	}
 
 	return nil

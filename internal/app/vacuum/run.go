@@ -61,12 +61,18 @@ func Vacuum(regions []string, vacuumers ...Vacuumer) {
 			text, _ := reader.ReadString('\n')
 			text = strings.Replace(text, "\n", "", -1)
 			if strings.EqualFold("y", text) {
-				tml.Printf("boo")
+				for _, c := range clean {
+					c.vaccuumer.Clean(c.resources, func(amount int) {
+						clearLine()
+						tml.Printf("Vacuuming %s [%d/%d]", c.vaccuumer.Type(), amount+1, len(c.resources.Resources()))
+					})
+				}
+				clearLine()
+				tml.Printf("Vacuumed!")
+				tml.Printf("\n\n")
+			} else {
+				tml.Printf("no worries, will leave it dirty!\n\n")
 			}
-			//
-			//tml.Printf("\t Vacuuming %d %s...\n", len(resources.Resources()), v.Type())
-			//err = v.Clean(resources)
-			//tml.Printf("\t Done.\n")
 		}
 
 	}
