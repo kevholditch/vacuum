@@ -55,11 +55,11 @@ func (s *securityRuleVacuumer) Identify(region Region) (Resources, error) {
 		region:    region,
 	}
 	for _, rule := range response.SecurityGroupRules {
-		removeable, err := securityGroupRuleCanBeRemoved(rule, region)
+		removable, err := securityGroupRuleCanBeRemoved(rule, region)
 		if err != nil {
 			return nil, err
 		}
-		if !removeable {
+		if !removable {
 			continue
 		}
 		result.resources = append(result.resources, &securityRuleResource{id: rule.SecurityGroupRuleId})
