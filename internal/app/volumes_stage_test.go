@@ -31,7 +31,7 @@ func newVolumesTest(t *testing.T) (*volumesTestStage, *volumesTestStage, *volume
 func (s *volumesTestStage) clean() {
 	for region := range s.regions {
 		resources, _ := vacuum.Volumes().Identify(region)
-		_ = vacuum.Volumes().Clean(resources)
+		_ = vacuum.Volumes().Clean(resources, func(amount int) {})
 	}
 }
 
@@ -112,7 +112,7 @@ func (s *volumesTestStage) volumes_are_vacuumed_in(region string) *volumesTestSt
 	resources, err := vacuum.Volumes().Identify(vacuum.Region(region))
 	assert.NoError(s.t, err)
 
-	err = vacuum.Volumes().Clean(resources)
+	err = vacuum.Volumes().Clean(resources, func(amount int) {})
 	assert.NoError(s.t, err)
 
 	return s

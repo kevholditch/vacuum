@@ -195,7 +195,7 @@ func (s *securityRulesTestStage) security_rules_are_vacuumed_in(region string) *
 	resources, err := vacuum.SecurityRules().Identify(vacuum.Region(region))
 	assert.NoError(s.t, err)
 
-	err = vacuum.SecurityRules().Clean(resources)
+	err = vacuum.SecurityRules().Clean(resources, func(amount int) {})
 	assert.NoError(s.t, err)
 
 	return s
