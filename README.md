@@ -81,3 +81,16 @@ By default, regions `eu-west-1` and `eu-west-2` will be vacuumed.  You can overr
 vacuum enis -r "us-east-1,us-east-2"
 ```
 
+### Vacuum Security Group Rules
+
+Clean up dangling security group rules which were created by K8s `aws-load-balancer-controller` via relevant annotations (e.g. resulting in descriptions like `kubernetes.io/rule/nlb/health=a6ba247c8d1e94b0691e80c29a769193`). These security group rules are created during automatic creation of NLBs and can be left dangling if the relevant services have not been shut down gracefully. Eventually you will hit the maximum number of allowed rules within your security group and need to perform a cleanup. To clean them up automatically use this:
+
+```
+vacuum securityRules
+```
+
+By default, regions `eu-west-1` and `eu-west-2` will be vacuumed.  You can override this using the regions flag:
+
+```
+vacuum securityRules -r "us-east-1,us-east-2"
+```
