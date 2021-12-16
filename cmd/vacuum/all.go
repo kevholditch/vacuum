@@ -8,9 +8,9 @@ import (
 var allCmd = &cobra.Command{
 	Use:   "all",
 	Short: "remove dirt from your AWS account",
-	Long:  "remove available unused rsources from your AWS account, stop lining Jeff Bezos's pockets!",
+	Long:  "remove available unused resources from your AWS account, stop lining Jeff Bezos's pockets!",
 	Run: func(cmd *cobra.Command, args []string) {
-		vacuum.Vacuum(regions, vacuum.Volumes(), vacuum.NetworkInterfaces())
+		vacuum.Vacuum(regions, vacuum.Volumes(), vacuum.NetworkInterfaces(), vacuum.SecurityRules())
 	},
 }
 
