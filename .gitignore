@@ -1,4 +1,6 @@
 .idea/
 .vscode/
 vacuum
+!cmd/**
+litter
 !internal/**
