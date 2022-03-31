@@ -11,7 +11,7 @@ func main() {
 		panic(err)
 	}
 
-	err = bug.CreateAvailableVolumes(25).Litter()
+	err = bug.CreateAvailableVolumes(100).Litter()
 	if err != nil {
 		panic(err)
 	}

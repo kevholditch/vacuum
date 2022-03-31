@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/liamg/tml"
 )
@@ -58,9 +59,11 @@ func Vacuum(regions []string, vacuumers ...Vacuumer) {
 
 		if len(clean) > 0 {
 			tml.Printf("\nVacuum? [y/n]:")
+			now := time.Now()
 			text, _ := reader.ReadString('\n')
 			text = strings.Replace(text, "\n", "", -1)
 			if strings.EqualFold("y", text) {
+
 				for _, c := range clean {
 					c.vaccuumer.Clean(c.resources, func(amount int) {
 						clearLine()
@@ -68,7 +71,8 @@ func Vacuum(regions []string, vacuumers ...Vacuumer) {
 					})
 				}
 				clearLine()
-				tml.Printf("Vacuumed!")
+
+				tml.Printf("Vacuumed in %.2fs", time.Now().Sub(now).Seconds())
 				tml.Printf("\n\n")
 			} else {
 				tml.Printf("no worries, will leave it dirty!\n\n")

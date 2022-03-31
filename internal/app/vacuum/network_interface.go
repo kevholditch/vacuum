@@ -1,6 +1,8 @@
 package vacuum
 
 import (
+	"sync/atomic"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 )
@@ -53,13 +55,28 @@ func (v *networkInterfaceVacuumer) Clean(resources Resources, cleaned func(amoun
 		return err
 	}
 
-	for i, resource := range resources.Resources() {
-		_, err := svc.DeleteNetworkInterface(&ec2.DeleteNetworkInterfaceInput{NetworkInterfaceId: resource.ID()})
-		if err != nil {
-			return err
-		}
-		cleaned(i)
+	workers := 10
+	workChan := make(chan *string)
+	var amountCleaned int32
+
+	for i := 0; i < workers; i++ {
+		go func(workerNumber int) {
+			for {
+				id, ok := <-workChan
+				if !ok {
+					return
+				}
+				svc.DeleteNetworkInterface(&ec2.DeleteNetworkInterfaceInput{NetworkInterfaceId: id})
+				cleaned(int(atomic.AddInt32(&amountCleaned, 1)))
+
+			}
+
+		}(i)
 	}
+	for _, resource := range resources.Resources() {
+		workChan <- resource.ID()
+	}
+	close(workChan)
 
 	return nil
 }
